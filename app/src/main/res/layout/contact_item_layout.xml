@@ -1,0 +1,35 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:gravity="center_vertical">
+    <TextView
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/sectionLabel"
+        android:textSize="24sp"
+        android:textColor="@color/colorAccent"
+        android:text="A"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"/>
+    <natanael.contactmanagement.widget.RoundedImageView
+        android:layout_marginLeft="4dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/placeholder"
+        android:layout_toRightOf="@+id/sectionLabel"/>
+    <TextView
+        android:layout_marginLeft="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:id="@+id/nameLabel"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/imageView"/>
+</RelativeLayout>
