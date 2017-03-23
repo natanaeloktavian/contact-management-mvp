@@ -2,8 +2,12 @@ package natanael.contactmanagement.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Contact
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class Contact extends RealmObject
 {
+    @PrimaryKey
     @SerializedName("id")
     private String id;
     @SerializedName("first_name")
@@ -15,7 +19,13 @@ public class Contact
     @SerializedName("url")
     private String url;
 
-    public Contact(String id, String firstName, String lastName, String profilePic, String url) {
+    public Contact()
+    {
+
+    }
+
+    public Contact(String id, String firstName, String lastName, String profilePic, String url)
+    {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

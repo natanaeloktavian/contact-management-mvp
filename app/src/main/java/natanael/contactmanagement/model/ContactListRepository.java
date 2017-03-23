@@ -50,6 +50,7 @@ public class ContactListRepository implements IContactListRepository
                     @Override
                     public final void onError(Throwable e)
                     {
+                        listener.onFailure(e.getMessage());
                     }
 
                     @Override

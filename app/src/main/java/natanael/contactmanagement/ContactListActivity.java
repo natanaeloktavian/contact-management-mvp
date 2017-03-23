@@ -11,13 +11,16 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import io.realm.RealmResults;
 import natanael.contactmanagement.adapter.ContactAdapter;
 import natanael.contactmanagement.model.Contact;
 import natanael.contactmanagement.model.ContactListRepository;
 import natanael.contactmanagement.model.RecyclerItemClickListener;
 import natanael.contactmanagement.presenter.ContactListPresenter;
 import natanael.contactmanagement.presenter.IContactListPresenter;
+import natanael.contactmanagement.realm.RealmController;
 import natanael.contactmanagement.view.IContactListView;
 
 public class ContactListActivity extends AppCompatActivity implements IContactListView
@@ -38,6 +41,7 @@ public class ContactListActivity extends AppCompatActivity implements IContactLi
         setContentView(R.layout.activity_contact_list);
 
         this.setReference();
+
         presenter.loadContacts();
     }
 
@@ -71,6 +75,8 @@ public class ContactListActivity extends AppCompatActivity implements IContactLi
             contactAdapter = new ContactAdapter(getApplicationContext(), contacts);
             if (recyclerView != null)
                 this.initializeRecyclerView(recyclerView, contactAdapter);
+
+            RealmController.with(this).insertContacts(contacts);
         }
     }
 
@@ -83,8 +89,23 @@ public class ContactListActivity extends AppCompatActivity implements IContactLi
     @Override
     public void onFailure(String message)
     {
-        Snackbar snackbar = Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Load from internet failed. Loading from local database...", Snackbar.LENGTH_LONG);
         snackbar.show();
+
+        this.loadFromLocalDatabase();
+    }
+
+    public void loadFromLocalDatabase()
+    {
+        ArrayList<Contact> contacts = new ArrayList<>();
+        RealmResults<Contact> results = RealmController.with(this).getContacts();
+        Iterator<Contact> iterator = results.iterator();
+        while (iterator.hasNext())
+        {
+            Contact contact = iterator.next();
+            contacts.add(contact);
+        }
+        this.onDataLoaded(contacts);
     }
 
     private void initializeRecyclerView(final RecyclerView recyclerView, final RecyclerView.Adapter adapter)
