@@ -2,11 +2,8 @@ package natanael.contactmanagement.model;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import natanael.contactmanagement.rest.ApiClient;
 import natanael.contactmanagement.rest.ApiInterface;
+import retrofit2.Retrofit;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -14,10 +11,17 @@ import rx.schedulers.Schedulers;
 
 public class ContactListRepository implements IContactListRepository
 {
+    private Retrofit mRetrofit;
+
+    public ContactListRepository (Retrofit retrofit)
+    {
+        this.mRetrofit = retrofit;
+    }
+
     @Override
     public void loadContacts(final OnFinishedListener listener)
     {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        //ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
         /*Call<ArrayList<Contact>> call = apiService.getContacts();
         call.enqueue(new Callback<ArrayList<Contact>>()
@@ -35,6 +39,9 @@ public class ContactListRepository implements IContactListRepository
                 listener.onFailure(t.getMessage());
             }
         });*/
+
+        //Using Dagger
+        ApiInterface apiService = mRetrofit.create(ApiInterface.class);
 
         //Using Rx Android
         Observable<ArrayList<Contact>> getContactRequest = apiService.getContacts();

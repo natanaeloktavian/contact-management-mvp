@@ -14,10 +14,12 @@ public class ApiClient
     {
         if (retrofit==null)
         {
+            OkHttpClient client = new OkHttpClient();
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
+                    .client(client)
                     .build();
         }
         return retrofit;

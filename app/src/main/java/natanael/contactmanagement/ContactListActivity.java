@@ -13,8 +13,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.inject.Inject;
+
 import io.realm.RealmResults;
 import natanael.contactmanagement.adapter.ContactAdapter;
+import natanael.contactmanagement.app.MyApplication;
 import natanael.contactmanagement.model.Contact;
 import natanael.contactmanagement.model.ContactListRepository;
 import natanael.contactmanagement.model.RecyclerItemClickListener;
@@ -22,9 +25,12 @@ import natanael.contactmanagement.presenter.ContactListPresenter;
 import natanael.contactmanagement.presenter.IContactListPresenter;
 import natanael.contactmanagement.realm.RealmController;
 import natanael.contactmanagement.view.IContactListView;
+import retrofit2.Retrofit;
 
 public class ContactListActivity extends AppCompatActivity implements IContactListView
 {
+    @Inject Retrofit mRetrofit;
+
     private TextView emptyLabel;
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
@@ -52,7 +58,8 @@ public class ContactListActivity extends AppCompatActivity implements IContactLi
         fab = (FloatingActionButton)this.findViewById(R.id.fab);
         emptyLabel = (TextView)this.findViewById(R.id.emptyLabel);
 
-        presenter = new ContactListPresenter(this, new ContactListRepository());
+        ((MyApplication) getApplication()).getRetrofitComponent().inject(this);
+        presenter = new ContactListPresenter(this, new ContactListRepository(mRetrofit));
     }
 
     @Override
