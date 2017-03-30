@@ -1,5 +1,6 @@
 package natanael.contactmanagement;
 
+import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,7 @@ import java.util.Iterator;
 import javax.inject.Inject;
 
 import io.realm.RealmResults;
+import natanael.contactmanagement.activity.ContactDetailActivity;
 import natanael.contactmanagement.adapter.ContactAdapter;
 import natanael.contactmanagement.app.MyApplication;
 import natanael.contactmanagement.model.Contact;
@@ -90,7 +92,9 @@ public class ContactListActivity extends AppCompatActivity implements IContactLi
     @Override
     public void onItemClicked(Contact contact)
     {
-
+        Intent intent = new Intent(getApplicationContext(),ContactDetailActivity.class);
+        intent.putExtra("id", contact.getId());
+        startActivity(intent);
     }
 
     @Override
