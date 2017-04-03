@@ -70,12 +70,12 @@ public class RealmController
 
     public void insertContacts(ArrayList<Contact> contacts)
     {
+        realm.beginTransaction();
         for(Contact contact : contacts)
         {
-            realm.beginTransaction();
             realm.insertOrUpdate(contact);
-            realm.commitTransaction();
         }
+        realm.commitTransaction();
     }
 
     //query example

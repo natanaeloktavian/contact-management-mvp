@@ -17,6 +17,7 @@ import java.util.Iterator;
 import javax.inject.Inject;
 
 import io.realm.RealmResults;
+import natanael.contactmanagement.activity.AddContactActivity;
 import natanael.contactmanagement.activity.ContactDetailActivity;
 import natanael.contactmanagement.adapter.ContactAdapter;
 import natanael.contactmanagement.app.MyApplication;
@@ -41,6 +42,7 @@ public class ContactListActivity extends AppCompatActivity implements IContactLi
 
     private ContactAdapter contactAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    static final int ADD_CONTACT_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,6 +51,7 @@ public class ContactListActivity extends AppCompatActivity implements IContactLi
         setContentView(R.layout.activity_contact_list);
 
         this.setReference();
+        this.setAction();
 
         presenter.loadContacts();
     }
@@ -62,6 +65,36 @@ public class ContactListActivity extends AppCompatActivity implements IContactLi
 
         ((MyApplication) getApplication()).getRetrofitComponent().inject(this);
         presenter = new ContactListPresenter(this, new ContactListRepository(mRetrofit));
+    }
+
+    private void setAction()
+    {
+        if(fab!=null)
+        {
+            fab.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    Intent intent = new Intent(getApplicationContext(),AddContactActivity.class);
+                    startActivityForResult(intent,ADD_CONTACT_REQUEST);
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==ADD_CONTACT_REQUEST)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                presenter.loadContacts();
+            }
+        }
     }
 
     @Override

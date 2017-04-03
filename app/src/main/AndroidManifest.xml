@@ -26,6 +26,12 @@
             android:label="Contact Detail"
             android:theme="@style/CustomAppTheme">
         </activity>
+        <activity android:name=".activity.AddContactActivity"
+            android:label="Add Contact"
+            android:theme="@style/CustomAppTheme">
+        </activity>
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
     </application>
 
 </manifest>
